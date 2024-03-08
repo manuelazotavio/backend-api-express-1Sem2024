@@ -4,7 +4,7 @@ const endereco = {
 }
 
 const user = {
-    name: 'Renan',
+    name: 'oi',
     idade: 39,
     email: 'renancavichi@gmail.com',
     cidade: 'Caragua',
