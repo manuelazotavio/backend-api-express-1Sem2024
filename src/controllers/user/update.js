@@ -4,10 +4,10 @@ const update = async (req, res) => {
     try{
         const id = +req.params.id
         const user = req.body
-        const result = await userModel.edit({id, ...user})
+        const userEditado = await userModel.edit({id, ...user})
         res.json({
             success: `Usuário ${id} editado com sucesso!`,
-            user: result
+            user: userEditado
         })
     } catch (error) {
         console.log(error)

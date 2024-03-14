@@ -28,7 +28,7 @@ const remove = async (id) => {
     })
 }
 
-const edit = async (product) => {
+const edit = async (id) => {
     return await prisma.product.update({
         where: {
             id: product.id

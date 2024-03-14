@@ -33,6 +33,12 @@ const validateUserToCreate = (user) => {
     return partialUserSchema.safeParse(user)
 }
 
+const validateUserToEdit = (user) => {
+    return partialUserSchema.safeParse(user)
+}
+
+
+
 const getAll = async () => {
     return await prisma.user.findMany()
 }
@@ -59,7 +65,7 @@ const remove = async (id) => {
     })
 }
 
-const edit = async (user) => {
+const edit = async (user, id) => {
     return await prisma.user.update({
         where: {
             id: user.id
@@ -69,4 +75,4 @@ const edit = async (user) => {
 }
 
 
-export default {getAll, getById, create, remove, edit, validateUserToCreate}
+export default {getAll, getById, create, remove, edit, validateUserToCreate, validateUserToEdit}
