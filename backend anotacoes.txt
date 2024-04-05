@@ -1,0 +1,42 @@
+ambiente do backend com express => roda com linguagem javascript no ambiente node
+
+NPM => node package manager, serve para gerenciar as dependencias do projeto, configurar algumas coisas, por exemplo se quero usar o import ou require e determinar os scripts
+
+CLI => comand line interface, o que rodamos no terminal na linha de comando.
+
+NPM init => inicia o projeto node, mostrando o nome do projeto, quem é o autor, etc. quando termina, gera o package json.
+type: module serve para usarmos import ao inves de require.
+
+NPM i => instala todos os pacotes nao instalados
+
+npm uninstall => desinstalar algum pacote, pode ser retirando o nome dele do package json também
+
+-D => instala pacostes de desenvolvimento no projeto. 
+quando eu colocar no ar/em produção algum projeto, as dependencias de desenvolvimento nao vao mais existir. por exemplo, prisma, nodemon, etc.
+ex: npm i nodemon -D
+
+scripts => atalho para rodar algum comando no meu projeto. ex: npm run generate: npx prisma generate
+sempre preciso colocar o npm run
+
+npm start => unico script q o run
+
+Nodemon / --watch (serve para observar os scripts, e quando eu salvo, ele vai rodar o servidor dnv. se eu tiver o node menor q a v.20, eu tenho q instalar o nodemon -D, e para ele executar o projeto com o nodemon, preciso ir no script, colocar "dev": nodemon e o caminho inicial do meu projeto.
+
+Express => framework (conjunto de recursos usado para resolver algum problema). o express é um framework que me ajuda a construir uma API, construindo rotas e devolvendo respostas para as minhas requisições.
+
+Restful => rotas, metodos especificos
+
+Routers => uso o Router para criar as minhas rotas, e uso o app.use para configurar as rotas. o router nao é necesario, porem fica mais simples para organizar.
+
+Metodos => GET: obter alguma informacao
+
+MVC => Padrao de projeto que divide o projeto em 3 camadas.
+Model => regra de negócios e acesso ao banco de dados. Mas dependendo da forma q a equipe organiza o projeto, o banco de dados pode ficar em uma 4 camada
+View => Fazer a interface com o usuário, apresentação das telas e etc. Quem cuida dessa camada é o frontend
+Control => Controlar o fluxo das entradas, processamento e saídas de dados. 
+
+Middleware => também é um padrao de projeto utilizado pelo express, funções intermediárias, processamento das entradas de uma API. (fluxo de execução da rota)
+
+Validação de dados (ZOD) => 
+
+
