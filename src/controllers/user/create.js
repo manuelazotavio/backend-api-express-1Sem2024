@@ -11,7 +11,9 @@ const create = async (req, res) => {
                 fields: zodErrorFormat(result.error)
             })
         }
-        const newUser = await userModel.create(user)
+        //hash 
+        
+        const newUser = await userModel.create(result.data)
         return res.json({
             success: `Usuário ${newUser.id} criado com sucesso!`,
             user: newUser
