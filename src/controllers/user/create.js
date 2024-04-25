@@ -1,6 +1,7 @@
 import userModel from "../../models/userModel.js"
 import zodErrorFormat from "../../helpers/zodErrorFormat.js"
 
+
 const create = async (req, res) => {
     try{
         const user = req.body
@@ -12,7 +13,7 @@ const create = async (req, res) => {
             })
         }
         //hash 
-        
+
         const newUser = await userModel.create(result.data)
         return res.json({
             success: `Usuário ${newUser.id} criado com sucesso!`,
