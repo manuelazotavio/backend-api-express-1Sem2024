@@ -62,7 +62,8 @@ const create = async (user) => {
         select: {
             name: true,
             email: true,
-            avatar: true
+            avatar: true,
+            id: true
         }
     })
 }
