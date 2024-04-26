@@ -43,6 +43,13 @@ const login = async (req, res) => {
     const token = jwt.sign({id: userFound.id, name: userFound.name}, SECRET_KEY, {expiresIn: '3m'}
     )
 
+    //gerar o cookie
+    //httpOnly quer dizer que só o http vai conseguir ler o cookie, o javascript não
+    //SameSite significa se o cookie vai para o mesmo site, no caso mão, ja que nosso back e front sao separados
+    //Secure quer dizer se o cookie é seguro
+    //MaxAge quer dizer quando o cookie vai expirar.
+    res.cookie('token', token, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000})
+
 
 
     res.json({ message: "Login feito com sucesso", token });
