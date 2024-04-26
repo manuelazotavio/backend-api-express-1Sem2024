@@ -1,5 +1,6 @@
 import userModel from "../../models/userModel";
 import zodErrorFormat from "../../helpers/zodErrorFormat.js";
+import bcrypt, { hash } from 'bcrypt'
 
 const login = async (req, res) => {
   try {
@@ -15,13 +16,28 @@ const login = async (req, res) => {
         fields: zodErrorFormat(result.error),
       });
     }
-
+    //encontrar se o usuario existe vendo o email
     const userFound = await userModel.getByEmail(email);
     if (!userFound) {
       return res.status(401).json({
         error: `Usuário não foi encontrado`,
       });
     }
+
+    //comparar se a senha informada bate com o hash salvo
+    //pass é oq é colocado no meu body, e o userFound.pass é oq esta gravado no banco ja com o hash
+
+    const passIsValid = await bcrypt.compare(pass, userFound.pass)
+
+    //validacao da senha
+    if(!passIsValid){
+        return res.status(401).json({
+            error: `E-mail ou senha inválidos`,
+          });
+    }
+
+    //se o email esta certo e a senha tambem
+
     res.json({ message: "Login" });
   } catch (error) {
     console.log(error);
