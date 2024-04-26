@@ -2,11 +2,18 @@ import userModel from "../../models/userModel.js"
 
 const update = async (req, res) => {
     try{
-        const id = +req.params.id
+        user.id = +req.params.id
         const user = req.body
-        const userEditado = await userModel.edit({id, ...user})
+        const result = userModel.validateUserToEdit(user)
+        if(!result.success){
+            return res.status(400).json({
+                error: `Dados de Cadastro Inválido`,
+                fields: zodErrorFormat(result.error)
+            })
+        }
+        const userEditado = await userModel.edit(user)
         res.json({
-            success: `Usuário ${id} editado com sucesso!`,
+            success: `Usuário ${userEditado.id} editado com sucesso!`,
             user: userEditado
         })
     } catch (error) {

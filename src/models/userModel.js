@@ -38,14 +38,24 @@ const validateUserToCreate = (user) => {
     return partialUserSchema.safeParse(user)
 }
 
+
+
 const validateUserToEdit = (user) => {
+    const partialUserSchema = userSchema.partial({pass: true})
     return partialUserSchema.safeParse(user)
 }
 
 
 
 const getAll = async () => {
-    return await prisma.user.findMany()
+    return await prisma.user.findMany({
+        select: {
+            name: true,
+            email: true,
+            avatar: true,
+            id: true
+        }
+    })
 }
 
 const getById = async (id) => {
@@ -72,6 +82,12 @@ const remove = async (id) => {
     return await prisma.user.delete({
         where: {
             id
+        },
+        select: {
+            name: true,
+            email: true,
+            avatar: true,
+            id: true
         }
     })
 }
@@ -81,7 +97,13 @@ const edit = async (user, id) => {
         where: {
             id: user.id
         },
-        data: user
+        data: user,
+        select: {
+            name: true,
+            email: true,
+            avatar: true,
+            id: true
+        }
     })
 }
 
