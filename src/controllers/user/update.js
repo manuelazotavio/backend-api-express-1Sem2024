@@ -1,4 +1,5 @@
 import userModel from "../../models/userModel.js"
+import zodErrorFormat from "../../helpers/zodErrorFormat.js"
 
 const update = async (req, res) => {
     try{
