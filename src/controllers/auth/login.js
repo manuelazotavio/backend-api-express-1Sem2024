@@ -1,6 +1,9 @@
 import userModel from "../../models/userModel";
 import zodErrorFormat from "../../helpers/zodErrorFormat.js";
-import bcrypt, { hash } from 'bcrypt'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import { SECRET_KEY } from "../../config.js";
+
 
 const login = async (req, res) => {
   try {
@@ -36,9 +39,13 @@ const login = async (req, res) => {
           });
     }
 
-    //se o email esta certo e a senha tambem
+    //se o email esta certo e a senha tambem, vou gerar o token do usuario
+    const token = jwt.sign({id: userFound.id, name: userFound.name}, SECRET_KEY, {expiresIn: '3m'}
+    )
 
-    res.json({ message: "Login" });
+
+
+    res.json({ message: "Login feito com sucesso", token });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
