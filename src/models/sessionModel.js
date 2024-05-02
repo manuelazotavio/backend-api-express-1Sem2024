@@ -8,6 +8,14 @@ const create = async (session) => {
     })
 }
 
+const getByToken = async (token) => {
+    return await prisma.session.findUnique({
+        where: {
+            token
+        }
+    })
+}
+
 const remove = async (userId, token) => {
     return await prisma.session.delete({
         where: {
@@ -18,4 +26,4 @@ const remove = async (userId, token) => {
 }
 
 
-export default {create, remove}
+export default {create, remove, getByToken}
