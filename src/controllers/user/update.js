@@ -1,21 +1,27 @@
 import userModel from "../../models/userModel.js"
-import zodErrorFormat from "../../helpers/zodErrorFormat.js"
 
 const update = async (req, res) => {
-    try{
-        user.id = +req.params.id
+    try{ 
         const user = req.body
-        const result = userModel.validateUserToEdit(user)
+        user.id = +req.params.id
+
+        if(user.id !== req.userLogged.id){
+            return res.status(401).json({
+                error: 'não autorizado a atualiar outro usuário!'
+            })
+        }
+
+        const result = userModel.validateUserToUpdate(user)
         if(!result.success){
             return res.status(400).json({
-                error: `Dados de Cadastro Inválido`,
+                error: `Dados de Atualização Inválido`,
                 fields: zodErrorFormat(result.error)
             })
         }
-        const userEditado = await userModel.edit(user)
+        const userEdited = await userModel.edit(user)
         res.json({
-            success: `Usuário ${userEditado.id} editado com sucesso!`,
-            user: userEditado
+            success: `Usuário ${userEdited.id} editado com sucesso!`,
+            user: userEdited
         })
     } catch (error) {
         console.log(error)

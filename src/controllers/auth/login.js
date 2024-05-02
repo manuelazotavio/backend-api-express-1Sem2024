@@ -1,8 +1,9 @@
 import userModel from "../../models/userModel.js";
 import zodErrorFormat from "../../helpers/zodErrorFormat.js";
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import { SECRET_KEY } from "../../config.js";
+import sessionModel from "../../models/sessionModel.js";
 
 
 const login = async (req, res) => {
@@ -30,27 +31,42 @@ const login = async (req, res) => {
     //comparar se a senha informada bate com o hash salvo
     //pass é oq é colocado no meu body, e o userFound.pass é oq esta gravado no banco ja com o hash
 
-    const passIsValid = await bcrypt.compare(pass, userFound.pass)
+    const passIsValid = await bcrypt.compare(pass, userFound.pass);
 
     //validacao da senha
-    if(!passIsValid){
-        return res.status(401).json({
-            error: `E-mail ou senha inválidos`,
-          });
+    if (!passIsValid) {
+      return res.status(401).json({
+        error: `E-mail ou senha inválidos`,
+      });
     }
 
     //se o email esta certo e a senha tambem, vou gerar o token do usuario
-    const token = jwt.sign({id: userFound.id, name: userFound.name}, SECRET_KEY, {expiresIn: '3m'}
-    )
+    const token = jwt.sign(
+      { id: userFound.id, name: userFound.name },
+      SECRET_KEY,
+      { expiresIn: "3m" }
+    );
 
     //gerar o cookie
     //httpOnly quer dizer que só o http vai conseguir ler o cookie, o javascript não
     //SameSite significa se o cookie vai para o mesmo site, no caso mão, ja que nosso back e front sao separados
     //Secure quer dizer se o cookie é seguro
     //MaxAge quer dizer quando o cookie vai expirar.
-    res.cookie('token', token, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000})
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "None",
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
 
-
+    // fix timezone -3
+    let date = new Date();
+    date.setHours(date.getHours() - 3)
+    await sessionModel.create({
+        userId: userFound.id,
+        token,
+        createdAt: date
+    })
 
     res.json({ message: "Login feito com sucesso", token });
   } catch (error) {
